@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+        id: create-table
+        author: Temurmalik
+        changes:
+          - createTable:
+              tableName: chat
+              columns:
+                - column:
+                    name: id
+                    type: bigint
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: name
+                    type: varchar(200)
+                    constraints:
+                      unique: true
+                      nullable: false
+                - column:
+                    name: user_id
+                    type: bigint
+                - column:
+                    name: create_at
+                    type: timestamp

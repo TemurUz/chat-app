@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changeset/users.yaml
+  - include:
+      file: db/changelog/changeset/chat.yaml
+  - include:
+      file: db/changelog/changeset/message.yaml

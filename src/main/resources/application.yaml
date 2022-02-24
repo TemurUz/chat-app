@@ -1,0 +1,16 @@
+spring:
+  liquibase:
+    enabled: true
+    change-log: db/changelog/db.changelog-master.yaml
+  datasource:
+    url: jdbc:postgresql://localhost:5432/chat
+    password: 9704
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+server:
+  port: 9000
