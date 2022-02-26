@@ -11,7 +11,4 @@ public interface MessageService {
     ChatMessageDto sendChatMessageBehalfUser(MessageDto dto);
     //5 Получить список сообщений в конкретном чате - Muayyan chatdagi xabarlar ro'yxatini oling
     List<ChatMessageDto> getListMessageInSpecificChat(Long chat_id);
-
-    ChatMessageDto parse(Message message);
-
 }

@@ -9,6 +9,7 @@ import temur.uz.chatapp.entity.Message;
 import temur.uz.chatapp.entity.Users;
 import temur.uz.chatapp.exceptions.NotFoundException;
 import temur.uz.chatapp.exceptions.UserNotFoundException;
+import temur.uz.chatapp.mapper.MessageMapper;
 import temur.uz.chatapp.repository.ChatRepository;
 import temur.uz.chatapp.repository.MessageRepository;
 import temur.uz.chatapp.repository.UserRepository;
@@ -18,11 +19,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MessageServiceImpl implements MessageService {
+public class MessageServiceImpl implements MessageService{
     //repository
     private final MessageRepository messageRepository;
     private final ChatRepository chatRepository;
     private final UserRepository userRepository;
+    //mapper
+    private final MessageMapper messageMapper;
 
     @Override
     public ChatMessageDto sendChatMessageBehalfUser(MessageDto dto) {
@@ -32,7 +35,7 @@ public class MessageServiceImpl implements MessageService {
         Users users = userRepository.findById(dto.getAuthorId()).orElseThrow(UserNotFoundException::new);
         message.setAuthor(users);
         message.setText(dto.getText());
-        return parse(messageRepository.save(message));
+        return messageMapper.messageDto(messageRepository.save(message));
     }
 
     @Override
@@ -44,14 +47,4 @@ public class MessageServiceImpl implements MessageService {
         }
     }
 
-    @Override
-    public ChatMessageDto parse(Message message) {
-        ChatMessageDto chatMessageDto = new ChatMessageDto();
-        chatMessageDto.setText(message.getText());
-        chatMessageDto.setChatId(message.getChat().getId());
-        chatMessageDto.setChatName(message.getChat().getName());
-        chatMessageDto.setUserId(message.getAuthor().getId());
-        chatMessageDto.setUserName(message.getAuthor().getUsername());
-        return chatMessageDto;
-    }
 }
