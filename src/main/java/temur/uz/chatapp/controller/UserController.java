@@ -18,8 +18,9 @@ public class UserController {
 
     @PostMapping("/save")
     public ResponseEntity<Result> save(@RequestBody UserDto dto){
-        Result result = userService.addNewUser(dto);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(userService.addNewUser(dto));
     }
 
 }

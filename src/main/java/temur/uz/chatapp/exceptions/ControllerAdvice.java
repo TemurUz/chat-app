@@ -32,6 +32,11 @@ public class ControllerAdvice {
         return ErrorResponse.of(ResponseCode.USER_NOT_FOUND);
     }
 
-
+    @ExceptionHandler(UserDataFailedIsNotSavedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ErrorResponse on(UserDataFailedIsNotSavedException e) {
+        log.error(e.getMessage());
+        return ErrorResponse.of(ResponseCode.USER_DATA_FAILED_IS_NOT_SAVED);
+    }
 
 }

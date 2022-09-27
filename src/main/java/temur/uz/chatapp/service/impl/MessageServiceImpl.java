@@ -1,6 +1,7 @@
 package temur.uz.chatapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import temur.uz.chatapp.dto.ChatMessageDto;
 import temur.uz.chatapp.dto.MessageDto;
@@ -18,6 +19,7 @@ import temur.uz.chatapp.service.MessageService;
 import java.util.List;
 
 @Service
+@Log4j2
 @RequiredArgsConstructor
 public class MessageServiceImpl implements MessageService{
     //repository
@@ -43,7 +45,8 @@ public class MessageServiceImpl implements MessageService{
         try {
             return messageRepository.findAllMessagesByChatId(chat_id);
         } catch (Exception e) {
-            return null;
+            log.error(e.getMessage() + "messages not found");
+            throw new NotFoundException();
         }
     }
 

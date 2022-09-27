@@ -7,6 +7,7 @@ import temur.uz.chatapp.dto.UserChatDto;
 import temur.uz.chatapp.entity.Chat;
 import temur.uz.chatapp.entity.Users;
 import temur.uz.chatapp.exceptions.NotFoundException;
+import temur.uz.chatapp.exceptions.UserNotFoundException;
 import temur.uz.chatapp.model.Result;
 import temur.uz.chatapp.repository.ChatRepository;
 import temur.uz.chatapp.repository.UserRepository;
@@ -53,16 +54,13 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public UserChatDto getChatsOfUser(Long userId) {
         Optional<Users> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()){
+        if (optionalUser.isPresent()) {
             UserChatDto chatDto = new UserChatDto();
-            chatDto.setUserId(userId);
-            chatDto.setUsername(optionalUser.get().getUsername());
-            chatDto.setCreateAt(optionalUser.get().getCreated_at());
+            chatDto.accept(optionalUser.get());
             chatDto.setChats(chatRepository.getChatsByUserId(userId));
             return chatDto;
-        }else {
-            return new UserChatDto();
         }
+        throw new UserNotFoundException();
     }
 
 }

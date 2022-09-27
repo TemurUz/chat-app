@@ -1,14 +1,17 @@
 package temur.uz.chatapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import temur.uz.chatapp.entity.Users;
+import temur.uz.chatapp.exceptions.UserDataFailedIsNotSavedException;
 import temur.uz.chatapp.model.Result;
 import temur.uz.chatapp.dto.UserDto;
 import temur.uz.chatapp.repository.UserRepository;
 import temur.uz.chatapp.service.UserService;
 
 @Service
+@Log4j2
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -28,7 +31,8 @@ public class UserServiceImpl implements UserService {
                 return new Result(false, "this is user has already add");
             }
         }catch (Exception e){
-            return new Result(false, "user data failed not saved");
+            log.error(e.getMessage() + " user data failed not saved");
+            throw  new UserDataFailedIsNotSavedException();
         }
     }
 

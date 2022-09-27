@@ -2,6 +2,7 @@ package temur.uz.chatapp.entity;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import temur.uz.chatapp.dto.UserChatDto;
 
 import javax.persistence.*;
 import java.util.Date;
