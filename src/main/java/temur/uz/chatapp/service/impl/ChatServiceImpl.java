@@ -7,6 +7,7 @@ import temur.uz.chatapp.dto.UserChatDto;
 import temur.uz.chatapp.entity.Chat;
 import temur.uz.chatapp.entity.Users;
 import temur.uz.chatapp.exceptions.NotFoundException;
+import temur.uz.chatapp.exceptions.UserDataFailedIsNotSavedException;
 import temur.uz.chatapp.exceptions.UserNotFoundException;
 import temur.uz.chatapp.model.Result;
 import temur.uz.chatapp.repository.ChatRepository;
@@ -31,23 +32,23 @@ public class ChatServiceImpl implements ChatService {
             chatRepository.save(chat);
             return new Result(true, "is a new chat to created");
         } catch (Exception e) {
-            return new Result(false, "failed");
+            throw new RuntimeException("New chat doesn't creat between users");
         }
     }
 
     @Override
     public Result addNewPersonToTheChat(Long chatId, List<Long> userIds) {
         try {
-            Chat chat = chatRepository.findById(chatId).orElseThrow(NotFoundException::new);
             List<Users> users = userRepository.findAllByIdIn(userIds);
             if (users.isEmpty()) {
                 throw new NotFoundException();
             }
+            Chat chat = chatRepository.findById(chatId).orElseThrow(NotFoundException::new);
             chat.setUsers(users);
             chatRepository.save(chat);
             return new Result(true, "new people add");
-        } catch (Exception e) {
-            return new Result(false, "Error!");
+        } catch (UserDataFailedIsNotSavedException e) {
+            throw new UserDataFailedIsNotSavedException();
         }
     }
 

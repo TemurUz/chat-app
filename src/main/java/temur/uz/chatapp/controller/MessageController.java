@@ -20,7 +20,7 @@ public class MessageController {
     }
 
     @GetMapping("/{chat_id}")
-    public ResponseEntity<?> getListChat(@PathVariable(value = "chat_id") Long chat_id) {
+    public ResponseEntity<?> getListChat(@PathVariable Long chat_id) {
         return ResponseEntity.ok(messageService
                 .getListMessageInSpecificChat(
                         chat_id

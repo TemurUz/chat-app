@@ -22,12 +22,13 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 public class MessageServiceImpl implements MessageService{
+    //mapper
+    private final MessageMapper messageMapper;
+
     //repository
     private final MessageRepository messageRepository;
     private final ChatRepository chatRepository;
     private final UserRepository userRepository;
-    //mapper
-    private final MessageMapper messageMapper;
 
     @Override
     public ChatMessageDto sendChatMessageBehalfUser(MessageDto dto) {
@@ -44,8 +45,7 @@ public class MessageServiceImpl implements MessageService{
     public List<ChatMessageDto> getListMessageInSpecificChat(Long chat_id) {
         try {
             return messageRepository.findAllMessagesByChatId(chat_id);
-        } catch (Exception e) {
-            log.error(e.getMessage() + "messages not found");
+        } catch (NotFoundException e) {
             throw new NotFoundException();
         }
     }
